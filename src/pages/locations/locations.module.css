@@ -1,0 +1,32 @@
+.container {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-image: url('../../assets/locations.webp');
+	background-size: 100% auto;
+	background-position: top center;
+	background-repeat: repeat-y;
+}
+
+.locationsList {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 3vh 10vw;
+}
+
+.noPostsFound {
+	margin: 21.2vh 0;
+	text-align: center;
+}
+
+.locations {
+	text-align: center;
+	text-shadow: 2px 2px 3px black;
+}
+
+.locations > img {
+	width: 200px;
+	border-radius: 10px;
+}

@@ -1,0 +1,51 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 10px;
+	overflow: hidden;
+	position: relative;
+	max-width: 100%;
+}
+
+.postCardFoter {
+	border-top: 1px solid black;
+	padding: 5px;
+}
+
+.postCardInfo {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	justify-content: center;
+	margin-top: 5px;
+}
+
+.publishedAt {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+h4 {
+	margin: 0;
+}
+
+.img {
+	display: block;
+	max-width: 300px;
+	max-height: 300px;
+	margin: auto;
+}
+
+@media only screen and (min-width: 512px) {
+	.container {
+		width: calc(50% - 20px);
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	.container {
+		width: calc(33.33% - 20px);
+	}
+}
