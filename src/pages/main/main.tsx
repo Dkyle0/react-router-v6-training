@@ -4,7 +4,7 @@ import styles from './main.module.css';
 
 export const Main = () => {
 	const auth = useAuth();
-	const name = auth?.user || 'Anonimous';
+	const name = auth?.user || 'Anonymous';
 	return (
 		<div className={styles.container}>
 			<h1>
