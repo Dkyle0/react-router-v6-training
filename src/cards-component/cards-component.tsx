@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styles from './cardsComponent.module.css';
+import styles from './cards-component.module.css';
 
 interface ICardsComponent {
 	id: number;

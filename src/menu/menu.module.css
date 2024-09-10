@@ -4,7 +4,6 @@
 	top: 8%;
 	margin-bottom: 10px;
 	z-index: 10;
-	/* box-shadow: 10px 5px 20px black; */
 
 	@media (max-width: 800px) {
 		left: 50%;
@@ -64,4 +63,23 @@ a {
 .drop_content a:hover {
 	background-color: #f1f1f1;
 	color: black;
+}
+
+.drop_content > button {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border: none;
+	border-radius: 5px;
+	font-size: 2vh;
+	background-color: #737373;
+	color: white;
+	cursor: pointer;
+	box-sizing: border-box;
+
+	&:hover {
+		cursor: pointer;
+		color: rgb(0, 0, 0);
+		background-color: #e0e0e0;
+	}
 }

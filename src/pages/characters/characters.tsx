@@ -1,23 +1,24 @@
 import styles from './characters.module.css';
 import charData from '../../info-data/characters.json';
-import { CardsComponent } from '../../cardsComponent';
-import { useMatch } from 'react-router-dom';
-import { useState } from 'react';
+import { CardsComponent } from '../../cards-component';
+import { useParams } from 'react-router-dom';
+import { useMemo, useState } from 'react';
 import { SortButton } from '../../sort-button';
 import { useListSortEffect } from '../../hooks';
 
 export const Characters = () => {
-	const isCard = useMatch('/characters/:id');
+	const { id } = useParams();
 	const [sortingOrder, setSortingOrder] = useState(false);
+	const sortedData = useMemo(() => [...charData], []);
 
-	useListSortEffect(charData, sortingOrder);
+	useListSortEffect(sortedData, sortingOrder);
 
 	const list = (
 		<>
 			<h1>Персонажи</h1>
 			<SortButton sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
 			<div className={styles.charList}>
-				{charData.map(({ id, name, image, created }) => {
+				{sortedData.map(({ id, name, image, created }) => {
 					return (
 						<CardsComponent
 							key={id}
@@ -33,35 +34,35 @@ export const Characters = () => {
 		</>
 	);
 
-	const id = Number(isCard?.params?.id) - 1;
+	const currentId = Number(id) - 1;
 
 	const char =
-		!isNaN(id) && id >= 0 && id < charData.length ? (
+		!isNaN(currentId) && currentId >= 0 && currentId < sortedData.length ? (
 			<div className={styles.char}>
-				<h1>{charData[id].name}</h1>
-				<img src={charData[id].image} alt={charData[id].name} />
+				<h1>{sortedData[currentId].name}</h1>
+				<img src={sortedData[currentId].image} alt={sortedData[currentId].name} />
 				<p>
-					<strong>Status:</strong> {charData[id].status}
+					<strong>Status:</strong> {sortedData[currentId].status}
 				</p>
 				<p>
-					<strong>Species:</strong> {charData[id].species}
+					<strong>Species:</strong> {sortedData[currentId].species}
 				</p>
 				<p>
-					<strong>Type:</strong> {charData[id].type || 'N/A'}
+					<strong>Type:</strong> {sortedData[currentId].type || 'N/A'}
 				</p>
 				<p>
-					<strong>Gender:</strong> {charData[id].gender}
+					<strong>Gender:</strong> {sortedData[currentId].gender}
 				</p>
 				<p>
 					<strong>Created:</strong>{' '}
-					{new Date(charData[id].created).toLocaleDateString()}
+					{new Date(sortedData[currentId].created).toLocaleDateString()}
 				</p>
 			</div>
 		) : (
 			<h1>Ошибка: Персонаж не найден</h1>
 		);
 
-	const render = isCard ? char : list;
+	const render = id ? char : list;
 
 	return <div className={styles.container}>{render}</div>;
 };

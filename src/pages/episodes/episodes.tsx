@@ -1,23 +1,24 @@
 import styles from './episodes.module.css';
 import episodeData from '../../info-data/episode.json';
-import { CardsComponent } from '../../cardsComponent';
-import { useMatch } from 'react-router-dom';
-import { useState } from 'react';
+import { CardsComponent } from '../../cards-component';
+import { useParams } from 'react-router-dom';
+import { useMemo, useState } from 'react';
 import { useListSortEffect } from '../../hooks';
 import { SortButton } from '../../sort-button';
 
 export const Episodes = () => {
-	const isCard = useMatch('/episodes/:id');
+	const { id } = useParams();
 	const [sortingOrder, setSortingOrder] = useState(false);
+	const sortedData = useMemo(() => [...episodeData], []);
 
-	useListSortEffect(episodeData, sortingOrder);
+	useListSortEffect(sortedData, sortingOrder);
 
 	const list = (
 		<>
 			<h1>Эпизоды</h1>
 			<SortButton sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
 			<div className={styles.episodesList}>
-				{episodeData.map(({ id, name, created }) => {
+				{sortedData.map(({ id, name, created }) => {
 					return (
 						<CardsComponent
 							key={id}
@@ -32,34 +33,34 @@ export const Episodes = () => {
 		</>
 	);
 
-	const id = Number(isCard?.params?.id) - 1;
+	const currentId = Number(id) - 1;
 
 	const char =
-		!isNaN(id) && id >= 0 && id < episodeData.length ? (
+		!isNaN(currentId) && currentId >= 0 && currentId < sortedData.length ? (
 			<div className={styles.episodes}>
-				<h1>{episodeData[id].name}</h1>
+				<h1>{sortedData[currentId].name}</h1>
 				<img
 					src={
 						'https://ideogram.ai/assets/image/lossless/response/2xC_4FcHTPCxi84AN1CWOQ'
 					}
-					alt={episodeData[id].name}
+					alt={sortedData[currentId].name}
 				/>
 				<p>
-					<strong>Episode:</strong> {episodeData[id].episode}
+					<strong>Episode:</strong> {sortedData[currentId].episode}
 				</p>
 				<p>
-					<strong>Air_date:</strong> {episodeData[id].air_date}
+					<strong>Air_date:</strong> {sortedData[currentId].air_date}
 				</p>
 				<p>
 					<strong>Created:</strong>{' '}
-					{new Date(episodeData[id].air_date).toLocaleDateString()}
+					{new Date(sortedData[currentId].air_date).toLocaleDateString()}
 				</p>
 			</div>
 		) : (
 			<h1>Ошибка: Эпизод не найден</h1>
 		);
 
-	const render = isCard ? char : list;
+	const render = id ? char : list;
 
 	return <div className={styles.container}>{render}</div>;
 };

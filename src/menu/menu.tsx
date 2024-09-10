@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './menu.module.css';
+import { useAuth } from '../auth-provider/auth-provider';
 
 const menuItems = [
 	{ path: '/', name: 'Главная' },
@@ -12,6 +13,13 @@ const menuItems = [
 export const Menu = () => {
 	const location = useLocation();
 	const [currentMenu, setCurrentMenu] = useState(menuItems);
+	const auth = useAuth();
+	const navigate = useNavigate();
+	const handleSingout = () => {
+		auth?.signout(() => {
+			navigate('/');
+		});
+	};
 
 	useEffect(() => {
 		setCurrentMenu(menuItems.filter((item) => item.path !== location.pathname));
@@ -26,6 +34,11 @@ export const Menu = () => {
 						{item.name}
 					</Link>
 				))}
+				{auth?.user ? (
+					<button onClick={handleSingout}>Выйти</button>
+				) : (
+					<Link to={'/login'}>Войти</Link>
+				)}
 			</nav>
 		</div>
 	);

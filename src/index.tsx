@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { App } from './App';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './auth-provider/auth-provider';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
 	<BrowserRouter>
-		<App />
+		<AuthProvider>
+			<App />
+		</AuthProvider>
 	</BrowserRouter>,
 );
