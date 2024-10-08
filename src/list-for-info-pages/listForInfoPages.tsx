@@ -6,17 +6,7 @@ interface IListForInfoPages {
 	title: string;
 	sortingOrder: boolean;
 	setSortingOrder: React.Dispatch<React.SetStateAction<boolean>>;
-	sortedData: {
-		id: number;
-		name: string;
-		type?: string;
-		dimension?: string;
-		created: string;
-		status?: string;
-		species?: string;
-		gender?: string;
-		image?: string;
-	}[];
+	sortedData: IInfoData[];
 }
 
 export const ListForInfoPages = ({

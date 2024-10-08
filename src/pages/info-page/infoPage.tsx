@@ -35,7 +35,7 @@ export const InfoPage = ({ currentData, errorMessage, title }: IInfoPage) => {
 					<strong>Status:</strong> {currentData.status}
 				</p>
 			)}
-			{title === 'episode' && currentData.episode && (
+			{title === 'Эпизоды' && currentData.episode && (
 				<p>
 					<strong>Episode:</strong> {currentData.episode}
 				</p>
@@ -50,7 +50,7 @@ export const InfoPage = ({ currentData, errorMessage, title }: IInfoPage) => {
 					<strong>Species:</strong> {currentData.species}
 				</p>
 			)}
-			{(title === 'char' || title === 'loc') && (
+			{(title === 'Персонажи' || title === 'Локации') && (
 				<p>
 					<strong>Type:</strong> {currentData.type || 'N/A'}
 				</p>
