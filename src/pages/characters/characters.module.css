@@ -10,23 +10,7 @@
 	background-repeat: repeat-y;
 }
 
-.charList {
-	display: flex;
-	flex-wrap: wrap;
-	margin: 3vh 10vw;
-}
-
 .noPostsFound {
 	margin: 21.2vh 0;
 	text-align: center;
-}
-
-.char {
-	text-align: center;
-	text-shadow: 2px 2px 3px black;
-}
-
-.char > img {
-	width: 200px;
-	border-radius: 10px;
 }

@@ -1,66 +1,39 @@
 import styles from './characters.module.css';
-import charData from '../../info-data/characters.json';
-import { CardsComponent } from '../../cards-component';
+import DafaultCharData from '../../info-data/characters.json';
 import { useParams } from 'react-router-dom';
 import { useMemo, useState } from 'react';
-import { SortButton } from '../../sort-button';
-import { useListSortEffect } from '../../hooks';
+import { useFetchData, useListSortEffect } from '../../hooks';
+import { ListForInfoPages } from '../../list-for-info-pages';
+import { InfoPage } from '../info-page';
 
 export const Characters = () => {
 	const { id } = useParams();
 	const [sortingOrder, setSortingOrder] = useState(false);
-	const sortedData = useMemo(() => [...charData], []);
+	// const [page, setPage] = useState(1);
+	let URL = 'https://rickandmortyapi.com/api/character';
+	const charData = useFetchData(URL, DafaultCharData);
+	const sortedData = useMemo(() => [...charData], [charData]);
 
 	useListSortEffect(sortedData, sortingOrder);
 
 	const list = (
-		<>
-			<h1>Персонажи</h1>
-			<SortButton sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
-			<div className={styles.charList}>
-				{sortedData.map(({ id, name, image, created }) => {
-					return (
-						<CardsComponent
-							key={id}
-							id={id}
-							title={name}
-							imageUrl={image}
-							created={created}
-							url="characters"
-						/>
-					);
-				})}
-			</div>
-		</>
+		<ListForInfoPages
+			title="Персонажи"
+			sortingOrder={sortingOrder}
+			sortedData={sortedData}
+			setSortingOrder={setSortingOrder}
+		/>
 	);
 
-	const currentId = Number(id) - 1;
+	const currentChar = id ? sortedData.find((el) => el.id === Number(id)) : null;
 
-	const char =
-		!isNaN(currentId) && currentId >= 0 && currentId < sortedData.length ? (
-			<div className={styles.char}>
-				<h1>{sortedData[currentId].name}</h1>
-				<img src={sortedData[currentId].image} alt={sortedData[currentId].name} />
-				<p>
-					<strong>Status:</strong> {sortedData[currentId].status}
-				</p>
-				<p>
-					<strong>Species:</strong> {sortedData[currentId].species}
-				</p>
-				<p>
-					<strong>Type:</strong> {sortedData[currentId].type || 'N/A'}
-				</p>
-				<p>
-					<strong>Gender:</strong> {sortedData[currentId].gender}
-				</p>
-				<p>
-					<strong>Created:</strong>{' '}
-					{new Date(sortedData[currentId].created).toLocaleDateString()}
-				</p>
-			</div>
-		) : (
-			<h1>Ошибка: Персонаж не найден</h1>
-		);
+	const char = (
+		<InfoPage
+			title="char"
+			errorMessage="Персонаж не найден"
+			currentData={currentChar}
+		/>
+	);
 
 	const render = id ? char : list;
 

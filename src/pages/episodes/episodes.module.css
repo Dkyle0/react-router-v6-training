@@ -9,24 +9,3 @@
 	background-position: top center;
 	background-repeat: repeat-y;
 }
-
-.episodesList {
-	display: flex;
-	flex-wrap: wrap;
-	margin: 3vh 10vw;
-}
-
-.noPostsFound {
-	margin: 21.2vh 0;
-	text-align: center;
-}
-
-.episodes {
-	text-align: center;
-	text-shadow: 2px 2px 3px black;
-}
-
-.episodes > img {
-	width: 600px;
-	border-radius: 10px;
-}

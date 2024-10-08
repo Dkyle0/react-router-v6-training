@@ -1,66 +1,40 @@
 import styles from './episodes.module.css';
-import episodeData from '../../info-data/episode.json';
-import { CardsComponent } from '../../cards-component';
+import defaultEpisodeData from '../../info-data/episode.json';
 import { useParams } from 'react-router-dom';
 import { useMemo, useState } from 'react';
-import { useListSortEffect } from '../../hooks';
-import { SortButton } from '../../sort-button';
+import { useFetchData, useListSortEffect } from '../../hooks';
+import { ListForInfoPages } from '../../list-for-info-pages';
+import { InfoPage } from '../info-page';
 
 export const Episodes = () => {
 	const { id } = useParams();
 	const [sortingOrder, setSortingOrder] = useState(false);
-	const sortedData = useMemo(() => [...episodeData], []);
+	let URL = 'https://rickandmortyapi.com/api/episode';
+	const episodeData = useFetchData(URL, defaultEpisodeData);
+	const sortedData = useMemo(() => [...episodeData], [episodeData]);
 
 	useListSortEffect(sortedData, sortingOrder);
 
 	const list = (
-		<>
-			<h1>Эпизоды</h1>
-			<SortButton sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
-			<div className={styles.episodesList}>
-				{sortedData.map(({ id, name, created }) => {
-					return (
-						<CardsComponent
-							key={id}
-							id={id}
-							title={name}
-							created={created}
-							url="episodes"
-						/>
-					);
-				})}
-			</div>
-		</>
+		<ListForInfoPages
+			title="Эпизоды"
+			sortingOrder={sortingOrder}
+			sortedData={sortedData}
+			setSortingOrder={setSortingOrder}
+		/>
 	);
 
-	const currentId = Number(id) - 1;
+	const currentEpisode = id ? sortedData.find((el) => el.id === Number(id)) : null;
 
-	const char =
-		!isNaN(currentId) && currentId >= 0 && currentId < sortedData.length ? (
-			<div className={styles.episodes}>
-				<h1>{sortedData[currentId].name}</h1>
-				<img
-					src={
-						'https://ideogram.ai/assets/image/lossless/response/2xC_4FcHTPCxi84AN1CWOQ'
-					}
-					alt={sortedData[currentId].name}
-				/>
-				<p>
-					<strong>Episode:</strong> {sortedData[currentId].episode}
-				</p>
-				<p>
-					<strong>Air_date:</strong> {sortedData[currentId].air_date}
-				</p>
-				<p>
-					<strong>Created:</strong>{' '}
-					{new Date(sortedData[currentId].air_date).toLocaleDateString()}
-				</p>
-			</div>
-		) : (
-			<h1>Ошибка: Эпизод не найден</h1>
-		);
+	const episode = (
+		<InfoPage
+			title="episode"
+			errorMessage="Эпизод не найден"
+			currentData={currentEpisode}
+		/>
+	);
 
-	const render = id ? char : list;
+	const render = id ? episode : list;
 
 	return <div className={styles.container}>{render}</div>;
 };

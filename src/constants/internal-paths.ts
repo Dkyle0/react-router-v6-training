@@ -1,11 +1,9 @@
 export const internalPaths = {
 	home: '/',
 	characters: '/characters',
-	character: (alias: string): string => `/characters/${alias}`,
+	// character: (alias: string): string => `/characters/${alias}`, оставлю, как пример использования для айди
 	episodes: '/episodes',
-	episode: (alias: string): string => `/episodes/${alias}`,
 	locations: '/locations',
-	location: (alias: string): string => `/locations/${alias}`,
 	secret: '/secret',
 	login: '/login',
 };

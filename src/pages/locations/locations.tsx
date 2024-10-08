@@ -1,60 +1,40 @@
 import styles from './locations.module.css';
-import locationsData from '../../info-data/location.json';
-import { CardsComponent } from '../../cards-component';
+import DefaultLocationsData from '../../info-data/location.json';
 import { useParams } from 'react-router-dom';
-import { SortButton } from '../../sort-button';
 import { useMemo, useState } from 'react';
-import { useListSortEffect } from '../../hooks';
+import { useFetchData, useListSortEffect } from '../../hooks';
+import { ListForInfoPages } from '../../list-for-info-pages';
+import { InfoPage } from '../info-page';
 
 export const Locations = () => {
 	const { id } = useParams();
 	const [sortingOrder, setSortingOrder] = useState(false);
-	const sortedData = useMemo(() => [...locationsData], []);
+	let URL = 'https://rickandmortyapi.com/api/location';
+	const locationsData = useFetchData(URL, DefaultLocationsData);
+	const sortedData = useMemo(() => [...locationsData], [locationsData]);
 
 	useListSortEffect(sortedData, sortingOrder);
 
 	const list = (
-		<>
-			<h1>Локации</h1>
-			<SortButton sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
-			<div className={styles.locationsList}>
-				{sortedData.map(({ id, name, created }) => {
-					return (
-						<CardsComponent
-							key={id}
-							id={id}
-							title={name}
-							created={created}
-							url="locations"
-						/>
-					);
-				})}
-			</div>
-		</>
+		<ListForInfoPages
+			title="Локации"
+			sortingOrder={sortingOrder}
+			sortedData={sortedData}
+			setSortingOrder={setSortingOrder}
+		/>
 	);
 
-	const currentId = Number(id) - 1;
+	const currentLocation = id ? sortedData.find((el) => el.id === Number(id)) : null;
 
-	const char =
-		!isNaN(currentId) && currentId >= 0 && currentId < sortedData.length ? (
-			<div className={styles.locations}>
-				<h1>{sortedData[currentId].name}</h1>
-				<p>
-					<strong>Dimension:</strong> {sortedData[currentId].dimension}
-				</p>
-				<p>
-					<strong>Type:</strong> {sortedData[currentId].type || 'N/A'}
-				</p>
-				<p>
-					<strong>Created:</strong>{' '}
-					{new Date(sortedData[currentId].created).toLocaleDateString()}
-				</p>
-			</div>
-		) : (
-			<h1>Ошибка: Локация не найден</h1>
-		);
+	const location = (
+		<InfoPage
+			title="loc"
+			errorMessage="Локация не найдена"
+			currentData={currentLocation}
+		/>
+	);
 
-	const render = id ? char : list;
+	const render = id ? location : list;
 
 	return <div className={styles.container}>{render}</div>;
 };
