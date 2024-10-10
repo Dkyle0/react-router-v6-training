@@ -7,6 +7,7 @@ interface IListForInfoPages {
 	sortingOrder: boolean;
 	setSortingOrder: React.Dispatch<React.SetStateAction<boolean>>;
 	sortedData: IInfoData[];
+	lastNodeRef: (node: HTMLDivElement | null) => void;
 }
 
 export const ListForInfoPages = ({
@@ -14,13 +15,23 @@ export const ListForInfoPages = ({
 	sortingOrder,
 	setSortingOrder,
 	sortedData,
+	lastNodeRef,
 }: IListForInfoPages) => {
 	let resultList;
 
 	switch (title) {
 		case 'Локации':
-			resultList = sortedData.map(({ id, name, created }) => {
-				return (
+			resultList = sortedData.map(({ id, name, created }, index) => {
+				return sortedData.length - 9 === index + 1 ? (
+					<CardsComponent
+						key={id}
+						id={id}
+						title={name}
+						created={created}
+						url="locations"
+						lastNodeRef={lastNodeRef}
+					/>
+				) : (
 					<CardsComponent
 						key={id}
 						id={id}
@@ -32,8 +43,18 @@ export const ListForInfoPages = ({
 			});
 			break;
 		case 'Персонажи':
-			resultList = sortedData.map(({ id, name, image, created }) => {
-				return (
+			resultList = sortedData.map(({ id, name, image, created }, index) => {
+				return sortedData.length - 9 === index + 1 ? (
+					<CardsComponent
+						key={id}
+						id={id}
+						title={name}
+						imageUrl={image}
+						created={created}
+						url="characters"
+						lastNodeRef={lastNodeRef}
+					/>
+				) : (
 					<CardsComponent
 						key={id}
 						id={id}
@@ -46,8 +67,17 @@ export const ListForInfoPages = ({
 			});
 			break;
 		case 'Эпизоды':
-			resultList = sortedData.map(({ id, name, created }) => {
-				return (
+			resultList = sortedData.map(({ id, name, created }, index) => {
+				return sortedData.length - 9 === index + 1 ? (
+					<CardsComponent
+						key={id}
+						id={id}
+						title={name}
+						created={created}
+						url="episodes"
+						lastNodeRef={lastNodeRef}
+					/>
+				) : (
 					<CardsComponent
 						key={id}
 						id={id}

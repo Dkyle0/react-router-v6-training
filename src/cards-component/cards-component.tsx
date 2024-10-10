@@ -7,6 +7,7 @@ interface ICardsComponent {
 	imageUrl?: string;
 	created: string;
 	url: string;
+	lastNodeRef?: (node: HTMLDivElement | null) => void;
 }
 
 export const CardsComponent = ({
@@ -15,9 +16,10 @@ export const CardsComponent = ({
 	imageUrl,
 	created,
 	url,
+	lastNodeRef,
 }: ICardsComponent) => {
 	return (
-		<div className={styles.container}>
+		<div ref={lastNodeRef || undefined} className={styles.container}>
 			<Link to={`/${url}/${id}`}>
 				<img
 					className={styles.img}

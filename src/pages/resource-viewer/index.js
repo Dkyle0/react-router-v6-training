@@ -1,1 +1,1 @@
-export * from './ResourceViewer';
+export * from './resourceViewer';
