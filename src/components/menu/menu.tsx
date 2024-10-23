@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './menu.module.css';
-import { useAuth } from '../auth-provider/auth-provider';
+import { useAuth } from '../../auth-provider/auth-provider';
+import { internalPaths } from '../../constants/internal-paths';
 
 const menuItems = [
 	{ path: '/', name: 'Главная' },
-	{ path: '/characters', name: 'Персонажи' },
-	{ path: '/episodes', name: 'Эпизоды' },
-	{ path: '/locations', name: 'Расположение' },
+	{ path: internalPaths.characters, name: 'Персонажи' },
+	{ path: internalPaths.episodes, name: 'Эпизоды' },
+	{ path: internalPaths.locations, name: 'Расположение' },
 ];
 
 export const Menu = () => {

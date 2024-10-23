@@ -1,2 +1,2 @@
 export * from './useListSortEffect';
-export * from './useFetchData';
+export * from './useFetchNewPageData';

@@ -2,19 +2,22 @@ import styles from './ResourceViewer.module.css';
 import DefaultCharData from '../../info-data/characters.json';
 import defaultEpisodeData from '../../info-data/episode.json';
 import DefaultLocationsData from '../../info-data/location.json';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useFetchData, useListSortEffect } from '../../hooks';
+import { useFetchNewPageData, useListSortEffect } from '../../hooks';
 import { ListForInfoPages } from '../../list-for-info-pages';
 import { InfoPage } from '../info-page';
 
 export const ResourceViewer = ({ title }: { title: string }) => {
+	// console.log('render'); мжно ещё поработать над оптимизацией колличества рендеров
 	const { id } = useParams();
 	const [sortingOrder, setSortingOrder] = useState(false);
 	const [page, setPage] = useState(1);
 	const [allData, setAllData] = useState<IInfoData[]>([]);
 	const [loadedPages, setLoadedPages] = useState<Set<number>>(new Set());
 	const [hasMoreData, setHasMoreData] = useState(true);
+	const defaultData = useRef([] as IInfoData[]);
+	const loaderData = (useLoaderData() as IInfoData[]) || defaultData.current;
 	const [infoData, setInfoData] = useState<IInfoData[]>([]);
 
 	const observer = useRef<IntersectionObserver | undefined>(undefined);
@@ -38,7 +41,6 @@ export const ResourceViewer = ({ title }: { title: string }) => {
 		[hasMoreData],
 	);
 
-	const defaultData = useRef([] as IInfoData[]);
 	const defaultURL = useRef('');
 	let errorMessage = '';
 
@@ -64,25 +66,24 @@ export const ResourceViewer = ({ title }: { title: string }) => {
 
 	const URL = useRef(defaultURL.current);
 
-	const fetchData = useFetchData(URL.current, defaultData.current);
-	useEffect(() => {
-		setInfoData(fetchData);
-	}, [fetchData]);
-
 	useEffect(() => {
 		setPage(1);
 		setAllData([]);
 		setLoadedPages(new Set());
 		setHasMoreData(true);
-		setInfoData([]);
+		setInfoData(loaderData);
 		URL.current = defaultURL.current;
-	}, [title]);
+	}, [loaderData]);
 
-	useEffect(() => {
-		if (!loadedPages.has(page) && hasMoreData && page > 1) {
-			URL.current = `${defaultURL.current}?page=${page}`;
-		}
-	}, [page, title, loadedPages, hasMoreData]);
+	useFetchNewPageData({
+		page,
+		loadedPages,
+		hasMoreData,
+		URL,
+		defaultURL,
+		defaultData,
+		setInfoData,
+	});
 
 	useEffect(() => {
 		if (infoData?.length && !loadedPages.has(page)) {
