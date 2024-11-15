@@ -1,26 +1,26 @@
 .container {
-	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-	background-size: 100% auto;
-	background-position: top center;
-	background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: top center;
+  background-repeat: repeat-y;
 }
 
 .bgChar {
-	background-image: url('../../assets/characters.webp');
+  background-image: url("../../shared/assets/characters.webp");
 }
 .bgLoc {
-	background-image: url('../../assets/locations.webp');
+  background-image: url("../../shared/assets/locations.webp");
 }
 .bgEpi {
-	background-image: url('../../assets/episodes.webp');
+  background-image: url("../../shared/assets/episodes.webp");
 }
 
 .noPostsFound {
-	margin: 21.2vh 0;
-	text-align: center;
+  margin: 21.2vh 0;
+  text-align: center;
 }

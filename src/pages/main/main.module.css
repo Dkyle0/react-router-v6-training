@@ -1,16 +1,16 @@
 .container {
-	width: 100%;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	background-image: url('../../assets/main.webp');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-image: url("../../shared/assets/main.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 h1 > a {
-	cursor: auto;
-	background-color: rgba(0, 0, 0, 0);
+  cursor: auto;
+  background-color: rgba(0, 0, 0, 0);
 }
