@@ -1,0 +1,9 @@
+.container {
+	text-align: center;
+	text-shadow: 2px 2px 3px black;
+}
+
+.container > img {
+	width: 200px;
+	border-radius: 10px;
+}
